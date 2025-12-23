@@ -12,11 +12,10 @@ function App() {
 
   const rates = {
     USD: 1,
-    EUR: 0.85,
-    GBP: 0.75,
-    JPY: 157
+    EUR: 0.92,
+    GBP: 0.78,
+    JPY: 156.7
   };
-
 
   function handleMoneyInput(e){
     setMoney(e.target.value);
@@ -30,9 +29,10 @@ function App() {
     setExchangeTo(e.target.value);
   }
 
-
-
-  
+  // convertion immediate, memoize function to only run if amount is changed.
+  const computeExchangeAmount = useMemo(()=>{
+    return (money * (rates[exchangeFrom]/ rates[exchangeTo])).toFixed(2);
+  }, [exchangeFrom, exchangeTo, money]);
 
   return (
     <>
@@ -62,7 +62,7 @@ function App() {
             </select>
           </label>
         </div>
-        <div className="result">Convertion of {exchangeFrom} to {exchangeTo} Amount: </div>
+        <div className="result">Convertion of {exchangeFrom} to {exchangeTo} Amount: {computeExchangeAmount}</div>
       </div>
     </>
   )
